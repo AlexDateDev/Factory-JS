@@ -1,0 +1,64 @@
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Drag drop</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style type="text/css">
+                #cajaimagen{
+                    float:left;
+                    width:400px;
+                    margin: 30px;
+                    border: 1px solid red;
+                }
+                #zonadestino{
+                    float:left; /* al soltar quede a la izquierda */
+                    width: 600px;
+                    height: 600px;
+                    margin: 100px;
+                    border: 1px solid blue;
+                }
+            </style>
+            <script type="text/javascript">
+                var elem_destino;
+                var elem_origen;
+                function comenzar(){
+                    elem_origen = document.getElementById("imagen");
+                    elem_origen.addEventListener("dragstart",comenzamos_arrastrar, false);
+
+                    elem_destino = document.getElementById("zonadestino");
+                    elem_destino.addEventListener("dragenter", function(e){
+                        e.preventDefault();
+                    }, false);
+                    elem_destino.addEventListener("dragover", function(e){
+                        e.preventDefault();
+                    }, false);
+                    elem_destino.addEventListener("drop", soltando, false);
+                }
+
+                function comenzamos_arrastrar(e){
+                    var codigo = "<img src='" + elem_origen.getAttribute("src") + "'>";
+                    /* guardamos en el elemento origen la información a compartir */
+                    e.dataTransfer.setData( "Text", codigo);
+
+                }
+                function soltando(e){
+                    debugger;
+                    e.preventDefault();
+                    var img = e.dataTransfer.getData("Text");
+                    elem_destino.innerHTML = img;
+                }
+                window.addEventListener("load", comenzar, false);
+            </script>
+        </head>
+        <body>
+            <section id="cajaimagen">
+                <img src="img1.jpg" id="imagen" />
+            </section>
+            <section id="zonadestino">
+                Arrastrelo aqui
+            </section>
+
+        </body>
+    </html>
+

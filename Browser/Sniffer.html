@@ -1,0 +1,431 @@
+<!-- --------------------------------------------------------------------------
+   Sniffer
+
+
+
+   Date : 03/03/2013
+   By   : Alex
+--------------------------------------------------------------------------- -->
+
+<HTML>
+<HEAD>
+    <TITLE>Titulo</TITLE>
+    <!-- <LINK REL="STYLESHEET" HREF=".css" TYPE="text/css">-->
+
+<script>
+
+function _Browser()
+{
+    this.d=document;
+
+    this.node=window.Node?true:false;
+    this.element=window.Element?true:false;
+
+    this.id=this.d.getElementById?true:false;
+
+    this.docElement=this.d.documentElement?true:false;
+
+    this.all=this.d.all?true:false;
+
+    this.layers=this.d.layers?true:false;
+
+    this.captureEvents=this.d.captureEvents?true:false;
+
+    this.windowEvent=window.Event?true:false; // Nav4
+
+    this.regexp=window.RegExp?true:false;
+
+    this.childNodes=this.d.childNodes?true:false;
+
+    this.onevent=this.d.onkeydown==null?true:false;
+
+    this.anchors=this.d.anchors?true:false;
+
+    this.option=window.Option?true:false;
+
+    this.d.cookie = "cookies=true";
+    this.cookie=this.d.cookie?true:false;
+
+    this.images=this.d.images?true:false;
+
+    this.forms=this.d.forms?true:false;
+
+    this.links=this.d.links?true:false;
+
+    this.frames=window.frames?true:false;
+
+    this.screen=window.screen?true:false;
+
+    this.timers=window.setInterval?true:false;
+
+    this.ua=navigator.userAgent.toLowerCase();
+    this.av=navigator.appVersion.toLowerCase();
+
+    this.minor=parseFloat(this.av);
+    this.major=parseInt(this.minor);
+
+    this.opera=(this.ua.indexOf("opera")!=-1);
+    this.opera2=(this.ua.indexOf("opera 2")!=-1||this.ua.indexOf("opera/2")!=-1);
+    this.opera3=(this.ua.indexOf("opera 3")!=-1||this.ua.indexOf("opera/3")!=-1);
+    this.opera4=(this.ua.indexOf("opera 4")!=-1||this.ua.indexOf("opera/4")!=-1);
+    this.opera5=(this.ua.indexOf("opera 5")!=-1||this.ua.indexOf("opera/5")!=-1);
+    this.opera6=(this.ua.indexOf("opera 6")!=-1||this.ua.indexOf("opera/6")!=-1);
+    this.opera7=(this.ua.indexOf("opera 7")!=-1||this.ua.indexOf("opera/7")!=-1);
+    this.opera5up=(this.opera&&!this.opera2&&!this.opera3&&!this.opera4);
+    this.opera6up=(this.opera&&!this.opera2&&!this.opera3&&!this.opera4&&!this.opera5);
+    this.opera7up=(this.opera&&!this.opera2&&!this.opera3&&!this.opera4&&!this.opera5&&!this.opera6);
+
+    this.mac=(this.ua.indexOf("mac")!=-1);
+    var iePos=this.av.indexOf('msie');
+    if(iePos!=-1)
+    {
+        if(this.mac)
+        {
+        var iePos=this.ua.indexOf('msie');
+        this.minor=parseFloat(this.ua.substring(iePos+5,this.ua.indexOf(';',iePos)));
+        }
+        else
+            this.minor=parseFloat(this.av.substring(iePos+5,this.av.indexOf(';',iePos)));
+        this.major=parseInt(this.minor);
+    }
+
+    this.konqueror=false;
+    var kqPos=this.ua.indexOf('konqueror');
+    if(kqPos!=-1)
+    {
+        this.konqueror=true;
+        this.minor=parseFloat(this.ua.substring(kqPos+10,this.ua.indexOf(';',kqPos)));
+        this.major=parseInt(this.minor);
+    }
+
+    this.safari=((this.ua.indexOf('safari')!=-1)&&(this.ua.indexOf('mac')!=-1))?true:false;
+
+    this.khtml=(this.safari||this.konqueror);
+
+    this.gecko=((!this.khtml)&&(navigator.product)&&(navigator.product.toLowerCase()=="gecko"))?true:false;
+    this.gecko_ver= 0;
+    if(this.gecko)
+        this.gecko_ver=navigator.productSub;
+
+    this.mozilla=((this.ua.indexOf('mozilla/5')!=-1)&&(this.ua.indexOf('spoofer')==-1)&&(this.ua.indexOf('compatible')==-1)&&(this.ua.indexOf('opera')==-1)&&(this.ua.indexOf('webtv')==-1)&&(this.ua.indexOf('hotjava')==-1)&&(this.gecko)&&((navigator.vendor=="")||(navigator.vendor=="Mozilla")||(navigator.vendor=="Debian")));
+    this.firebird=((this.ua.indexOf('mozilla/5')!=-1)&&(this.ua.indexOf('spoofer')==-1)&&(this.ua.indexOf('compatible')==-1) && (this.ua.indexOf('opera')==-1)&&(this.ua.indexOf('webtv')==-1)&&(this.ua.indexOf('hotjava')==-1)&&(this.gecko)&&(navigator.vendor=="Firebird"));
+    this.firefox=((this.ua.indexOf('mozilla/5')!=-1)&&(this.ua.indexOf('spoofer')==-1)&&(this.ua.indexOf('compatible')==-1)&&(this.ua.indexOf('opera')==-1)&&(this.ua.indexOf('webtv')==-1)&&(this.ua.indexOf('hotjava')==-1)&&(this.gecko)&&(navigator.vendor=="Firefox"));
+    if((this.mozilla)||(this.firebird)||(this.firefox))
+    {
+        this.mozilla_ver=(navigator.vendorSub)?navigator.vendorSub:0;
+        if(!(this.mozilla_ver))
+        {
+            this.mozilla_ver=this.ua.indexOf('rv:');
+            this.mozilla_ver=this.ua.substring(this.mozilla_ver+3);
+            this.paren=this.mozilla_ver.indexOf(')');
+            this.mozilla_ver=this.mozilla_ver.substring(0,this.paren);
+        }
+        this.minor=this.mozilla_ver;
+        this.major=parseInt(this.mozilla_ver);
+    }
+
+    this.firebird_ver=this.mozilla_ver;
+    this.firefox_ver=this.mozilla_ver;
+    this.netscape=((this.ua.indexOf('mozilla')!=-1)&&(this.ua.indexOf('spoofer')==-1)&&(this.ua.indexOf('compatible') == -1)&&(this.ua.indexOf('opera')==-1)&&(this.ua.indexOf('webtv')==-1)&&(this.ua.indexOf('hotjava')==-1)&&(!this.khtml)&&(!(this.mozilla))&&(!this.firebird)&&(!this.firefox));
+    if ((navigator.vendor)&&((navigator.vendor=="Netscape6")||(navigator.vendor=="Netscape"))&& (this.netscape))
+    {
+        this.major=parseInt(navigator.vendorSub);
+        this.minor=parseFloat(navigator.vendorSub);
+    }
+
+    this.netscape2=(this.netscape&&(this.major==2));
+    this.netscape3=(this.netscape&&(this.major==3));
+    this.netscape4=(this.netscape&&(this.major==4));
+    this.netscape6=(this.netscape&&this.major==6);
+    this.netscape5=(this.netscape&&this.major==5&&!this.netscape6);
+    this.netscape7=(this.netscape&&this.major==7);
+    this.netscape4up=(this.netscape&&this.minor>=4);
+    this.netscape5up=(this.netscape&&this.minor>=5);
+    this.netscape6up=(this.netscape&&this.minor>=6);
+    this.netscape7up=(this.netscape&&this.minor>=7);
+    this.netscapeonly=(this.netscape&&((this.ua.indexOf(";nav")!=-1)||(this.ua.indexOf("; nav")!=-1)));
+
+    this.ie=((iePos!=-1)&&(!this.opera)&&(!this.khtml));
+    this.ie3=(this.ie&&(this.major<4));
+    this.ie4=(this.ie&&this.major==4);
+    this.ie5=(this.ie&&this.major==5);
+    this.ie5_5=(this.ie&&(this.ua.indexOf("msie 5.5")!=-1));
+    this.ie6=(this.ie&&this.major==6);
+    this.ie4up=(this.ie&&this.minor>=4);
+    this.ie5up=(this.ie&&this.minor>=5);
+    this.ie5_5up=(this.ie&&this.minor>=5.5);
+    this.ie6up=(this.ie&&this.minor>=6);
+
+    this.java=(navigator.javaEnabled());
+    this.flash=false;
+    this.flash_ver=0;
+    this.flash_plugin="";
+    var plugin=(navigator.mimeTypes&&navigator.mimeTypes["application/x-shockwave-flash"]&&navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin)?navigator.mimeTypes["application/x-shockwave-flash"].enabledPlugin:false;
+    if(plugin)
+        this.flash_plugin=plugin.description;
+    if((this.netscape||this.opera||this.mozilla||this.firebird||this.firefox)||(this.mac&&this.ie5up))
+    {
+        if(plugin&&plugin.description)
+        {
+        this.flash=true;
+        this.flash_ver=parseInt(plugin.description.substring(plugin.description.indexOf(".")-1));
+        }
+    }
+    else if(this.ie&&this.ie4up)
+    {
+        try{
+            for(var v=20;v>0;v--)
+            {
+                try {var xObj=new ActiveXObject("ShockwaveFlash.ShockwaveFlash."+v);}catch(e){}
+                if(xObj)
+                {
+                    this.flash = true;
+                    this.flash_ver=v;
+                    xObj=null;break;
+                }
+            } }
+        catch(e){}
+    }
+
+    this.win=((this.ua.indexOf("win")!=-1)||(this.ua.indexOf("16bit")!=-1));
+    this.win95=((this.ua.indexOf("win95")!=-1)||(this.ua.indexOf("windows 95")!=-1));
+    this.win16=((this.ua.indexOf("win16")!=-1)||(this.ua.indexOf("16bit")!=-1)||(this.ua.indexOf("windows 3.1")!=-1)||(this.ua.indexOf("windows 16-bit")!=-1) );
+    this.win31=((this.ua.indexOf("windows 3.1")!=-1)||(this.ua.indexOf("win16")!=-1)||(this.ua.indexOf("windows 16-bit")!=-1));
+    this.winme=((this.ua.indexOf("win 9x 4.90")!=-1));
+    this.win2k=((this.ua.indexOf("windows nt 5.0")!=-1)||(this.ua.indexOf("windows 2000")!=-1));
+    this.winxp=((this.ua.indexOf("windows nt 5.1")!=-1)||(this.ua.indexOf("windows xp")!=-1));
+    this.win98=((this.ua.indexOf("win98")!=-1)||(this.ua.indexOf("windows 98")!=-1));
+    this.winnt=((this.ua.indexOf("winnt")!=-1)||(this.ua.indexOf("windows nt")!=-1));
+    this.win32=(this.win95||this.winnt||this.win98||((this.major>=4)&&(navigator.platform=="Win32"))||(this.ua.indexOf("win32")!=-1)||(this.ua.indexOf("32bit")!=-1));
+    this.os2=((this.ua.indexOf("os/2")!=-1)||(navigator.appVersion.indexOf("OS/2")!=-1)||(this.ua.indexOf("ibm-webexplorer")!=-1));
+    this.mac=(this.ua.indexOf("mac")!=-1);if(this.mac){this.win=!this.mac;}
+    this.mac68k=(this.mac&&((this.ua.indexOf("68k")!=-1)||(this.ua.indexOf("68000")!=-1)));
+    this.macppc=(this.mac&&((this.ua.indexOf("ppc")!=-1)||(this.ua.indexOf("powerpc")!=-1)));
+    this.sun=(this.ua.indexOf("sunos")!=-1);
+    this.sun4=(this.ua.indexOf("sunos 4")!=-1);
+    this.sun5=(this.ua.indexOf("sunos 5")!=-1);
+    this.suni86=(this.sun && (this.ua.indexOf("i86")!=-1));
+    this.irix=(this.ua.indexOf("irix")!=-1);
+    this.irix5=(this.ua.indexOf("irix 5")!=-1);
+    this.irix6=((this.ua.indexOf("irix 6")!=-1)||(this.ua.indexOf("irix6")!=-1));
+    this.hpux=(this.ua.indexOf("hp-ux")!=-1);
+    this.hpux9=(this.hpux&&(this.ua.indexOf("09.")!=-1));
+    this.hpux10=(this.hpux&&(this.ua.indexOf("10.")!=-1));
+    this.aix=(this.ua.indexOf("aix")!=-1);
+    this.aix1=(this.ua.indexOf("aix 1")!=-1);
+    this.aix2=(this.ua.indexOf("aix 2")!=-1);
+    this.aix3=(this.ua.indexOf("aix 3")!=-1);
+    this.aix4=(this.ua.indexOf("aix 4")!=-1);
+    this.linux=(this.ua.indexOf("inux")!=-1);
+    this.sco=(this.ua.indexOf("sco")!=-1) || (this.ua.indexOf("unix_sv")!=-1);
+    this.unixware=(this.ua.indexOf("unix_system_v")!=-1);
+    this.mpras=(this.ua.indexOf("ncr")!=-1);
+    this.reliant=(this.ua.indexOf("reliantunix")!=-1);
+    this.dec=((this.ua.indexOf("dec")!=-1)||(this.ua.indexOf("osf1")!=-1)||(this.ua.indexOf("dec_alpha")!=-1)||(this.ua.indexOf("alphaserver")!=-1)||(this.ua.indexOf("ultrix")!=-1)||(this.ua.indexOf("alphastation")!=-1));
+    this.sinix=(this.ua.indexOf("sinix")!=-1);
+    this.freebsd=(this.ua.indexOf("freebsd")!=-1);
+    this.bsd=(this.ua.indexOf("bsd")!=-1);
+    this.unix=((this.ua.indexOf("x11")!=-1)||this.sun||this.irix||this.hpux||this.sco||this.unixware||this.mpras||this.reliant||this.dec||this.sinix||this.aix||this.linux||this.bsd||this.freebsd);
+    this.vms=((this.ua.indexOf("vax")!=-1) || (this.ua.indexOf("openvms")!=-1));
+}
+
+var Browser = new _Browser;
+
+function bold(v)
+{
+    return v ? "<b>"+v+"</b>" : v;
+}
+</script>
+
+
+
+</HEAD>
+<BODY>
+    <h2>Browser Sniffer</h2>
+    <script>
+    document.write("<table border=1>");
+    document.write("<tr>" )
+    document.write("<td width=250 valign=top>" )
+    document.write("<h3>Browser</h3>");
+    document.write("</td>" )
+    document.write("<td>" )
+    document.write("<style>BODY{font-family:courier new;font-size:14px}.S{color:blue;}.M{color:brown}</style>");
+    document.write("<span class=S>userAgent: </span><span class=M>" + Browser.ua + "</span>");
+    document.write("<br /><span class=S>appVersion: </span><span class=M>" + Browser.av + "</span>" );
+    document.write("<br /><span class=S>Versión (major): </span><span class=M>" + Browser.major + "</span>" );
+    document.write("<br /><span class=S>Subversión (minor): </span><span class=M>" + Browser.minor + "</span>" );
+    document.write("<br /><span class=S>window.Node: </span><span class=M>" + bold(Browser.node) + "</span>" );
+    document.write("<br /><span class=S>window.Element: </span><span class=M>" + bold(Browser.element) + "</span>" );
+    document.write("<br /><span class=S>document.getElementById: </span><span class=M>" + bold(Browser.id) + "</span>" );
+    document.write("<br /><span class=S>document.documentElement: </span><span class=M>" + bold(Browser.docElement) + "</span>" );
+    document.write("<br /><span class=S>document.all: </span><span class=M>" + bold(Browser.all) + "</span>" );
+    document.write("<br /><span class=S>document.layers: </span><span class=M>" + bold(Browser.layers) + "</span>" );
+    document.write("<br /><span class=S>document.captureEvents: </span><span class=M>" + bold(Browser.captureEvents) + "</span>" );
+    document.write("<br /><span class=S>document.onevent: </span><span class=M>" + bold(Browser.onevent) + "</span>" );
+    document.write("<br /><span class=S>window.Event (N4): </span><span class=M>" + bold(Browser.windowEvent) + "</span>" );
+    document.write("<br /><span class=S>navigator.vendorSub: </span><span class=M>" + navigator.vendorSub+ "</span>" );
+    document.write("<br /><span class=S>navigator.productSub: </span><span class=M>" + navigator.productSub+ "</span>" );
+    document.write("<br /><span class=S>navigator.vendor: </span><span class=M>" + navigator.vendor+ "</span>" );
+    document.write("<br /><span class=S>Expresiones regulares: </span><span class=M>" + bold(Browser.regexp)+ "</span>" );
+    document.write("<br /><span class=S>DOM childNodes: </span><span class=M>" + bold(Browser.childNodes)+ "</span>" );
+
+    document.write("<br /><span class=S>Anchors: </span><span class=M>" + bold(Browser.anchors)+ "</span>" );
+    document.write("<br /><span class=S>Option: </span><span class=M>" + bold(Browser.option)+ "</span>" );
+    document.write("<br /><span class=S>Cookie: </span><span class=M>" + bold(Browser.cookie)+ "</span>" );
+    document.write("<br /><span class=S>Images: </span><span class=M>" + bold(Browser.images)+ "</span>" );
+    document.write("<br /><span class=S>Form: </span><span class=M>" + bold(Browser.forms)+ "</span>" );
+    document.write("<br /><span class=S>Links: </span><span class=M>" + bold(Browser.links)+ "</span>" );
+    document.write("<br /><span class=S>Frames: </span><span class=M>" + bold(Browser.frames)+ "</span>" );
+    document.write("<br /><span class=S>Screen: </span><span class=M>" + bold(Browser.screen)+ "</span>" );
+    document.write("<br /><span class=S>Java: </span><span class=M>" + bold(Browser.java)+ "</span>" );
+    document.write("<br /><span class=S>Flash: </span><span class=M>" + bold(Browser.flash)+ "</span>" );
+    document.write("<br /><span class=S>Flash version: </span><span class=M>" + Browser.flash_ver+ "</span>" );
+    document.write("<br /><span class=S>Flash plugin: </span><span class=M>" + Browser.flash_plugin+ "</span>" );
+    document.write("<br /><span class=S>Timers: </span><span class=M>" + bold(Browser.timers)+ "</span>" );
+
+    //document.write("<br /><span class=S>gestiona imágenes: </span><span class=M>" + Browser.images + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Internert Explorer</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>Internert Explorer: </span><span class=M>" + bold(Browser.ie) + "</span>" );
+    document.write("<br /><span class=S>Internert Explorer 3: </span><span class=M>" + bold(Browser.ie3) + "</span>" );
+
+    document.write("<br /><span class=S>Internert Explorer 4: </span><span class=M>" + bold(Browser.ie4) + "</span>" );
+    document.write("<br /><span class=S>Internert Explorer 5: </span><span class=M>" + bold(Browser.ie5) + "</span>" );
+    document.write("<br /><span class=S>Internert Explorer 5.5: </span><span class=M>" + bold(Browser.ie5_5) + "</span>" );
+    document.write("<br /><span class=S>Internert Explorer 6: </span><span class=M>" + bold(Browser.ie6) + "</span>" );
+
+    document.write("<br /><span class=S>Superior a Internert Explorer 4:</span><span class=M>" + bold(Browser.ie4up) + "</span>" );
+    document.write("<br /><span class=S>Superior a Internert Explorer 5: </span><span class=M>" + bold(Browser.ie5up) + "</span>" );
+    document.write("<br /><span class=S>Superiro a Internert Explorer 5.5: </span><span class=M>" + bold(Browser.ie5_5up) + "</span>" );
+    document.write("<br /><span class=S>Superior a Internert Explorer 6: </span><span class=M>" + bold(Browser.ie6up) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Netscape</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>Netscape: </span><span class=M>" + bold(Browser.netscape) + "</span>" );
+    document.write("<br /><span class=S>Netscape 2: </span><span class=M>" + bold(Browser.netscape2) + "</span>" );
+    document.write("<br /><span class=S>Netscape 3: </span><span class=M>" + bold(Browser.netscape3) + "</span>" );
+    document.write("<br /><span class=S>Netscape 4: </span><span class=M>" + bold(Browser.netscape4) + "</span>" );
+    document.write("<br /><span class=S>Netscape 5: </span><span class=M>" + bold(Browser.netscape5) + "</span>" );
+    document.write("<br /><span class=S>Netscape 6: </span><span class=M>" + bold(Browser.netscape6) + "</span>" );
+    document.write("<br /><span class=S>Netscape 7: </span> = <span class=M>" + bold(Browser.netscape7) + "</span>" );
+    document.write("<br /><span class=S>Superior a Netscape 4:</span><span class=M>" + bold(Browser.netscape4up) + "</span>" );
+    document.write("<br /><span class=S>Superioa a Netscape 5: </span><span class=M>" + bold(Browser.netscape5up) + "</span>" );
+    document.write("<br /><span class=S>Superior a Netscape 6: </span><span class=M>" + bold(Browser.netscape6up) + "</span>" );
+    document.write("<br /><span class=S>Superior a Netscape 7: </span><span class=M>" + bold(Browser.netscape7up) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Opera</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>opera</span> = <span class=M>" + bold(Browser.opera) + "</span>" );
+    document.write("<br /><span class=S>opera 2: </span><span class=M>" + bold(Browser.opera2) + "</span>" );
+    document.write("<br /><span class=S>opera 3: </span><span class=M>" + bold(Browser.opera3) + "</span>" );
+    document.write("<br /><span class=S>opera 4: </span><span class=M>" + bold(Browser.opera4) + "</span>" );
+    document.write("<br /><span class=S>opera 5: </span><span class=M>" + bold(Browser.opera5) + "</span>" );
+    document.write("<br /><span class=S>opera 6: </span><span class=M>" + bold(Browser.opera6) + "</span>" );
+    document.write("<br /><span class=S>opera 7: </span><span class=M>" + bold(Browser.opera7) + "</span>" );
+    document.write("<br /><span class=S>superior opera 5: </span><span class=M>" + bold(Browser.opera5up) + "</span>" );
+    document.write("<br /><span class=S>superior opera 6: </span><span class=M>" + bold(Browser.opera6up) + "</span>" );
+    document.write("<br /><span class=S>superior opera 7: </span><span class=M>" + bold(Browser.opera7up) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Gecko</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>gecko: </span><span class=M>" + bold(Browser.gecko) + "</span>" );
+    document.write("<br /><span class=S>gecko version: </span><span class=M>" + bold(Browser.gecko_ver) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Konqueror</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>konqueror: </span><span class=M>" + bold(Browser.konqueror) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Safari</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>safari: </span><span class=M>" + bold(Browser.safari) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Mozila</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>mozila: </span><span class=M>" + bold(Browser.mozilla) + "</span>" );
+    document.write("<br /><span class=S>mozila ver</span> = <span class=M>" + Browser.mozilla_ver + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Firebird</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>firebird: </span><span class=M>" + bold(Browser.firebird) + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Firefox</h3>");
+    document.write("</td><td>" );
+
+    document.write("<span class=S>firefox: </span><span class=M>" + bold(Browser.firefox) + "</span>" );
+    document.write("<br /><span class=S>firebird ver</span> = <span class=M>" + Browser.firebird_ver + "</span>" );
+    document.write("<br /><span class=S>firefox ver</span> = <span class=M>" + Browser.firefox_ver + "</span>" );
+
+    document.write("</td></tr><tr><td valign=top>")
+    document.write( "<h3>Sistema Operativo</h3>");
+    document.write("</td><td>" );
+
+
+    document.write("<span class=S>Windows: </span> = <span class=M>" + bold(Browser.win) + "</span>" );
+    document.write("<br /><span class=S>Windows 3.1: </span> = <span class=M>" + bold(Browser.win31) + "</span>" );
+    document.write("<br /><span class=S>Windows 95: </span> = <span class=M>" + bold(Browser.win95) + "</span>" );
+    document.write("<br /><span class=S>Windows 98: </span> = <span class=M>" + bold(Browser.win98) + "</span>" );
+    document.write("<br /><span class=S>Windows ME: </span> = <span class=M>" + bold(Browser.winme) + "</span>" );
+    document.write("<br /><span class=S>Windows 2000: </span> = <span class=M>" + bold(Browser.win2k) + "</span>" );
+    document.write("<br /><span class=S>Windows XP: </span> = <span class=M>" + bold(Browser.winxp) + "</span>" );
+    document.write("<br /><span class=S>Windows NT: </span> = <span class=M>" + bold(Browser.winnt) + "</span>" );
+    document.write("<br /><span class=S>Windows 16 bits: </span> = <span class=M>" + bold(Browser.win16) + "</span>" );
+    document.write("<br /><span class=S>Windows 32 bits: </span> = <span class=M>" + bold(Browser.win32) + "</span>" );
+    document.write("<br /><span class=S>OS/2: </span> = <span class=M>" + bold(Browser.os2) + "</span>" );
+    document.write("<br /><span class=S>MAC: </span> = <span class=M>" + bold(Browser.mac) + "</span>" );
+    document.write("<br /><span class=S>MAC 68K: </span> = <span class=M>" + bold(Browser.mac68k) + "</span>" );
+    document.write("<br /><span class=S>MAC Power PC: </span> = <span class=M>" + bold(Browser.macppc) + "</span>" );
+    document.write("<br /><span class=S>Sun OS: </span></span> = <span class=M>" + bold(Browser.sun) + "</span>" );
+    document.write("<br /><span class=S>Sun OS 4: </span> = <span class=M>" + bold(Browser.sun4) + "</span>" );
+    document.write("<br /><span class=S>Sun OS 5: </span> = <span class=M>" + bold(Browser.sun5) + "</span>" );
+    document.write("<br /><span class=S>Sun OS i86: </span> = <span class=M>" + bold(Browser.suni86) + "</span>" );
+    document.write("<br /><span class=S>Irix: </span> = <span class=M>" + bold(Browser.irix) + "</span>" );
+    document.write("<br /><span class=S>Irix 5: </span> = <span class=M>" + bold(Browser.irix5) + "</span>" );
+    document.write("<br /><span class=S>Irix 6: </span> = <span class=M>" + bold(Browser.irix6) + "</span>" );
+    document.write("<br /><span class=S>HP Unix: </span> = <span class=M>" + bold(Browser.hpux) + "</span>" );
+    document.write("<br /><span class=S>HP Unix 9: </span> = <span class=M>" + bold(Browser.hpux9) + "</span>" );
+    document.write("<br /><span class=S>HP Unix 10: </span> = <span class=M>" + bold(Browser.hpux10) + "</span>" );
+    document.write("<br /><span class=S>IBM AIX: </span> = <span class=M>" + bold(Browser.aix) + "</span>" );
+    document.write("<br /><span class=S>IBM AIX 1: </span> = <span class=M>" + bold(Browser.aix1) + "</span>" );
+    document.write("<br /><span class=S>IBM AIX 2: </span> = <span class=M>" + bold(Browser.aix2) + "</span>" );
+    document.write("<br /><span class=S>IBM AIX 3: </span> = <span class=M>" + bold(Browser.aix3) + "</span>" );
+    document.write("<br /><span class=S>IBM AIX 4: </span> = <span class=M>" + bold(Browser.aix4) + "</span>" );
+    document.write("<br /><span class=S>Linux: </span> = <span class=M>" + bold(Browser.linux) + "</span>" );
+    document.write("<br /><span class=S>Unix SCO: </span> = <span class=M>" + bold(Browser.sco) + "</span>" );
+    document.write("<br /><span class=S>Unixware: </span> = <span class=M>" + bold(Browser.unixware) + "</span>" );
+    document.write("<br /><span class=S>mpras: </span> = <span class=M>" + bold(Browser.mpras) + "</span>" );
+    document.write("<br /><span class=S>Reliant: </span> = <span class=M>" + bold(Browser.reliant) + "</span>" );
+    document.write("<br /><span class=S>DEC: </span> = <span class=M>" + bold(Browser.dec) + "</span>" );
+    document.write("<br /><span class=S>Sinix: </span> = <span class=M>" + bold(Browser.sinix) + "</span>" );
+    document.write("<br /><span class=S>FreeBSD: </span> = <span class=M>" + bold(Browser.freebsd) + "</span>" );
+    document.write("<br /><span class=S>BSD: </span> = <span class=M>" + bold(Browser.bsd) + "</span>" );
+    document.write("<br /><span class=S>Unic: </span> = <span class=M>" + bold(Browser.unix) + "</span>" );
+    document.write("<br /><span class=S>VMS</span> = <span class=M>" + bold(Browser.vms) + "</span>" );
+
+
+    document.write("</td>" );
+    document.write("</tr>");
+    document.write("</table>");
+
+    </script>
+
+</BODY>
+</HTML>
+

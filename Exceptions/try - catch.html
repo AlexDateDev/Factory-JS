@@ -1,0 +1,34 @@
+<!-- ----------------------------------------------------------------------------
+ Título:        try - catch
+
+ Fecha:        03/02/2011
+ Autor:        Alex Solé
+ Versión:        1.0.0
+ Dependencias:
+ ---------------------------------------------------------------------------- -->
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>try - catch</title>
+
+<script type="text/javascript">
+    function my_alert( ){
+        try {
+            alert("funciona");
+        }
+        catch( sErr ){
+            var sTxt = "Se ha producido un error.\n\n";
+            sTxt += "Error: " + sErr.message + "\n\n";
+            alert(sTxt);
+        }
+    }
+</script>
+</head>
+<body>
+        <form name="datos">
+        <input type="button" value="try catch" onclick="my_alert()">
+        </form>
+</body>
+</html>

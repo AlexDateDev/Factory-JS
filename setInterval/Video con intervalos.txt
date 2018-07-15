@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Video</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        <style type="text/css">
+            #botones{
+                float:left;
+                width: 100px;
+                height: 20px;
+            }
+            #barra{
+                background: #FFF;
+                width: 600px;
+                height: 16px;
+                border: 1px solid #444;
+                margin-left: 80px;
+            }
+            #progreso{
+                position: absolute;
+                width: 0px;
+                height: 16px;
+                background-color: rgba( 0,0,150,2);
+            }
+        </style>
+        <script type="text/javascript">
+            var mivideo, reproducir, barra, progreso;
+            var maximo = 600;
+            function comenzar(){
+                mivideo = document.getElementById("mivideo");
+                btnReproducir = document.getElementById("reproducir");
+                barra = document.getElementById("barra");
+                progreso = document.getElementById("progreso");
+
+                btnReproducir.addEventListener("click", clicando, false);
+                barra.addEventListener("click", adelantando, false);
+            }
+            function clicando(){
+                if( !mivideo.paused && !mivideo.ended){
+                    mivideo.pause();
+                    btnReproducir.innerHTML ="Play";
+                }
+                else{
+                    mivideo.play();
+                    btnReproducir.innerHTML ="Pause";
+                    bucle = setInterval( estado, 50);
+                }
+            }
+            function estado(){
+                if( !mivideo.ended){
+                    var total = parseInt(mivideo.currentTime * maximo / mivideo.duration);
+                    progreso.style.width = total + "px";
+                }
+            }
+            function adelantando(posicion){
+                if( !mivideo.pased && !mivideo.ended ){
+                    var ratonX = posicion.pageX - barra.offsetLeft;
+                    var nuevoTiempo = ratonX * mivideo.duration / maximo;
+                    mivideo.currentTime =parseInt(nuevoTiempo);
+                    progreso.style.width = ratonX + "px";
+                }
+            }
+            window.addEventListener("load", comenzar, false);
+         </script>
+    </head>
+    <body>
+        <section id="video">
+            <video id="mivideo" width="700">
+                <source src="Demo.mp4" type="video/mp4" />
+            </video>
+        </section>
+        <nav>
+            <div id="botones">
+                <button type="button" id="reproducir"> Play</button>
+            </div>
+            <div id="barra">
+                <div id="progreso"></div>
+            </div>
+        </nav>
+    </body>
+</html>
+

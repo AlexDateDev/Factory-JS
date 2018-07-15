@@ -1,0 +1,54 @@
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Drag drop</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style type="text/css">
+                #cajaimagen{
+                    float:left;
+                    width:400px;
+                    margin: 30px;
+                    border: 1px solid red;
+                }
+                #zonadestino{
+                    float:left; /* al soltar quede a la izquierda */
+                    width: 600px;
+                    height: 600px;
+                    margin: 100px;
+                    border: 1px solid blue;
+                }
+            </style>
+            <script type="text/javascript">
+                function comenzar(){
+                    var elemOrigen = document.getElementById("imagen");
+                    elemOrigen.addEventListener("dragstart",comenzamos_arrastrar, false);
+                }
+
+                function comenzamos_arrastrar(){
+                    var elem_destino = document.getElementById("zonadestino");
+                    elem_destino.addEventListener("dragenter", function(e){
+                        e.preventDefault();
+                    }, false);
+                    elem_destino.addEventListener("dragover", function(e){
+                        e.preventDefault();
+                    }, false);
+                    elem_destino.addEventListener("drop", function(e){
+                        e.preventDefault();
+                        alert( "dejamos");
+                    }, false);
+                }
+                window.addEventListener("load", comenzar, false);
+            </script>
+        </head>
+        <body>
+            <section id="cajaimagen">
+                <img src="img1.jpg" id="imagen" />
+            </section>
+            <section id="zonadestino">
+                Arrastrelo aqui
+            </section>
+
+        </body>
+    </html>
+

@@ -1,0 +1,30 @@
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Drag drop</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style type="text/css">
+                #cajaimagen{
+                    float:left;
+                    width:400px;
+                    margin: 30px;
+                    border: 1px solid red;
+                }
+            </style>
+            <script type="text/javascript">
+                function comenzar(){
+                    var elemOrigen = document.getElementById("imagen");
+                    elemOrigen.addEventListener("drag", function(){alert("moviendo");}, false); /* Escuchar para finalizar el movimiento */
+                }
+
+                window.addEventListener("load", comenzar, false);
+            </script>
+        </head>
+        <body>
+            <section id="cajaimagen">
+                <img src="img1.jpg" id="imagen" />
+            </section>
+        </body>
+    </html>
+
